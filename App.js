@@ -20,7 +20,7 @@ class App extends Component {
               headerStyle: {
                 backgroundColor: '#2541B2'
               },
-              headerTintColor: 'rgba(255, 255, 255, 0.7)'
+              headerTintColor: '#fff'
             }}
           >
             <Stack.Screen
@@ -31,7 +31,7 @@ class App extends Component {
             <Stack.Screen
               name="Chat"
               component={Chat}
-              options={{ title: '' }}
+              options={{ headerShown: false }}
             />
           </Stack.Navigator>
         </NavigationContainer>
