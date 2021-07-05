@@ -8,6 +8,7 @@ const Home = (props) => {
 
     const renderItem = ({ item }) => {
         const { id, name, image } = item;
+        const lastMsg = chats[id] && chats[id][0] && chats[id][0].data;
         return (
             <TouchableOpacity style={styles.userContainer} onPress={() => navigate('Chat', { user: item, chats: chats[id] })}>
                 <Image
@@ -16,6 +17,9 @@ const Home = (props) => {
                 />
                 <View style={styles.userDetailsContainer}>
                     <Text style={styles.name}>{name}</Text>
+                    {
+                        lastMsg ? <Text style={{color: 'gray'}}>{lastMsg}</Text> : null
+                    }
                 </View>
             </TouchableOpacity>
         )
@@ -57,13 +61,14 @@ const styles = StyleSheet.create({
     },
     userDetailsContainer: {
         flex: 1, 
-        marginHorizontal: 16, 
-        paddingVertical: 8
+        marginHorizontal: 16,
+        justifyContent: 'center'
     },
     name: {
         fontSize: 16,
         fontWeight: 'bold',
-        opacity: 0.9
+        opacity: 0.9,
+        marginBottom: 3
     },
     itemSeparator: {
         height: 1,
