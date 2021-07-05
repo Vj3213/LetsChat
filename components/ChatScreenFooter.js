@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const ChatScreenFooter = ({ onSend }) => {
+const ChatScreenFooter = ({ onSend, onPressAttachment }) => {
     const [msg, setMsg] = useState('');
     const shouldSendMsgDisable = msg.length === 0;
 
@@ -22,7 +22,7 @@ const ChatScreenFooter = ({ onSend }) => {
                         onChangeText={setMsg}
                         multiline
                     />
-                    <TouchableOpacity style={styles.attachmentIcon}>
+                    <TouchableOpacity style={styles.attachmentIcon} onPress={onPressAttachment}>
                         <Icon
                             name='attachment'
                             size={30}

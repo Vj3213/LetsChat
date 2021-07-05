@@ -5,6 +5,7 @@ import ChatScreenHeader from '../components/ChatScreenHeader';
 import ChatScreenFooter from '../components/ChatScreenFooter';
 import { generateResponse, msgFormat, msgType } from '../constants/common';
 import { LeftMsgBox, RightMsgBox } from '../components/MsgBoxes';
+import DocumentPicker from 'react-native-document-picker';
 
 const Chat = (props) => {
     const { dispatch, route: { params } } = props;
@@ -45,6 +46,15 @@ const Chat = (props) => {
         setChatList([{ id: Date.now(), type: msgType.SENT, format: msgFormat.TXT, data: msg}, ...chatList]);
     }
 
+    const onPressAttachment = async () => {
+        try {
+            const pickedFile = await DocumentPicker.pick();
+            console.log("Picked---", pickedFile)
+        } catch(error) {
+            console.log(error)
+        }
+    }
+
     const renderItem = ({ item }) => {
         const { type, format, data } = item;
         if (format == msgFormat.TXT) {
@@ -66,7 +76,7 @@ const Chat = (props) => {
                 keyExtractor={item => item.id.toString()}
                 inverted
             />
-            <ChatScreenFooter onSend={onSend} />
+            <ChatScreenFooter onSend={onSend} onPressAttachment={onPressAttachment} />
         </View>
     )
 }
