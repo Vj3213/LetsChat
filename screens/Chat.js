@@ -1,16 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, FlatList } from 'react-native';
+import { connect } from 'react-redux';
 import ChatScreenHeader from '../components/ChatScreenHeader';
 import ChatScreenFooter from '../components/ChatScreenFooter';
-import { msgFormat, msgType } from '../constants/common';
-import { RightMsgBox } from '../components/MsgBoxes';
+import { generateResponse, msgFormat, msgType } from '../constants/common';
+import { LeftMsgBox, RightMsgBox } from '../components/MsgBoxes';
 
 const Chat = (props) => {
-    const user = props.route.params.user || {};
-    const [chatList, setChatList] = useState([]);
+    const { dispatch, route: { params } } = props;
+    const user = params.user || {};
+    const chats = params.chats || [];
+
+    const chatListValue = useRef();
+    const [chatList, setChatList] = useState(chats);
+
+    useEffect(() => {
+        return saveChats;
+    }, [])
+
+    useEffect(() => {
+        chatListValue.current = chatList;
+        if (chatList[0]?.type == msgType.SENT) {
+            setTimeout(showDummyResponse, 500);
+        }
+    }, [chatList])
+
+    const saveChats = () => {
+        dispatch({ type: 'UPDATE_CHATS', payload: { userId: user.id, chatList: chatListValue.current }})
+    }
 
     const navigateBack = () => {
         props.navigation.goBack();
+    }
+
+    const showDummyResponse = () => {
+        const sentMsg = chatList[0]?.data;
+        if (sentMsg) {
+            const dummyRes = generateResponse(sentMsg);
+            setChatList([dummyRes, ...chatList])
+        }
     }
 
     const onSend = (msg) => {
@@ -22,6 +50,8 @@ const Chat = (props) => {
         if (format == msgFormat.TXT) {
             if (type == msgType.SENT) {
                return <RightMsgBox msg={data} />
+            } else {
+                return <LeftMsgBox msg={data} />
             }
         }
     }
@@ -41,5 +71,5 @@ const Chat = (props) => {
     )
 }
 
-export default Chat;
+export default connect()(Chat);
 

@@ -1,18 +1,15 @@
 import React from 'react';
 import { SafeAreaView, View, Text, StatusBar, FlatList, TouchableOpacity, Image, StyleSheet } from 'react-native';
-import { RightMsgBox, LeftMsgBox } from '../components/MsgBoxes';
+import { connect } from 'react-redux';
 import { data } from '../constants/data';
 
 const Home = (props) => {
-
-    const navigateTo = () => {
-
-    }
+    const { chats, navigation: { navigate } } = props;
 
     const renderItem = ({ item }) => {
         const { id, name, image } = item;
         return (
-            <TouchableOpacity style={styles.userContainer} onPress={() => props.navigation.navigate('Chat', { user: item })}>
+            <TouchableOpacity style={styles.userContainer} onPress={() => navigate('Chat', { user: item, chats: chats[id] })}>
                 <Image
                     source={{ uri: image }}
                     style={styles.photo}
@@ -41,7 +38,9 @@ const Home = (props) => {
     )
 }
 
-export default Home;
+const mapStateToProps = (state) => ({ chats: state.data })
+
+export default connect(mapStateToProps)(Home);
 
 const styles = StyleSheet.create({
     userContainer: {

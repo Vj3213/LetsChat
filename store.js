@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import users from "./reducers/users";
+import chats from "./reducers/chats";
 
-const store = createStore(users);
+const store = createStore(chats);
 export default store;
