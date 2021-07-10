@@ -6,6 +6,31 @@ import { data } from '../constants/data';
 const Home = (props) => {
     const { chats, navigation: { navigate } } = props;
 
+    const getLastMsgType = (format) => {
+        if (format == 'application/pdf') {
+            return 'pdf'
+        } else if (format.startsWith('application/')) {
+            return 'document'
+        } else if (format.startsWith('image/')) {
+            return 'image'
+        } else if (format.startsWith('video/')) {
+            return 'video'
+        } else {
+            return lastMsg
+        }
+    }
+
+    const renderLastMsg = (lastMsg, userId) => {
+        if (lastMsg) {
+            if (lastMsg.startsWith('content:/') || lastMsg.startsWith('file:/')) {
+                return <Text style={{color: 'gray'}}>{`Shared ${getLastMsgType(chats[userId][0].format)}`}</Text>
+            } else {
+                return <Text style={{color: 'gray'}}>{lastMsg}</Text>
+            }
+        }
+        return null;
+    }
+
     const renderItem = ({ item }) => {
         const { id, name, image } = item;
         const lastMsg = chats[id] && chats[id][0] && chats[id][0].data;
@@ -18,7 +43,7 @@ const Home = (props) => {
                 <View style={styles.userDetailsContainer}>
                     <Text style={styles.name}>{name}</Text>
                     {
-                        lastMsg ? <Text style={{color: 'gray'}}>{lastMsg}</Text> : null
+                        renderLastMsg(lastMsg, id)
                     }
                 </View>
             </TouchableOpacity>

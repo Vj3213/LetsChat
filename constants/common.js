@@ -10,8 +10,23 @@ export const msgType = {
     RECEIVED: 'received'
 }
 
+// "application/pdf"   "audio/mpeg"   "image/jpeg"    "application/pdf"  "application/doc"  "application/docx" "video/mp4"
+
 export const msgFormat = {
-    TXT: 'text'
+    TXT: 'text',
+    IMG: 'image',
+    PDF: 'pdf',
+    DOC: 'doc',
+    VID: 'video',
+    'image/jpeg': 'image',
+    'image/png': 'image',
+    'video/mp4': 'video',
+    'application/pdf': 'pdf',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'doc',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'doc',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'doc',
+    'application/msword': 'doc',
+    'application/plainText': 'doc'
 }
 
 export const generateResponse = (msg) => {
